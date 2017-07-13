@@ -1,0 +1,16 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+platform :ios, '8.0'
+use_frameworks!
+
+target 'wechat' do
+
+  pod 'Yoga', path: '../node_modules/react-native/ReactCommon/yoga/'
+  pod 'React', :path => '../node_modules/react-native', :subspecs => [
+    'Core',
+    'RCTText',
+    'RCTImage'
+  ]
+  pod 'react-native-amap3d', path: '../node_modules/react-native-amap3d/'
+
+end
