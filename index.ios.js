@@ -16,7 +16,7 @@ import {
 import { Button } from 'antd-mobile'
 import { StackNavigator } from 'react-navigation'
 
-import MainView from './ios-src/component/main'
+import MainView from './ios-component/main'
 
 class LoginView extends Component {
   constructor() {
@@ -46,7 +46,7 @@ class LoginView extends Component {
   render() {
     const _screen = Dimensions.get('screen')
     return (
-      <Image source={require('./ios-src/assets/images/ln.png')}
+      <Image source={require('./ln.png')}
         style={{ width: _screen.width, height: _screen.height }}>
         <View style={styles.container}>
           <View>

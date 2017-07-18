@@ -40,7 +40,7 @@ class HomeView extends Component {
     ]
     return (
       <SwipeAction autoClose right={rightMenu} key={key}>
-        <Item extra={item.time} align="top" thumb="../assets/images/header.png" style={{ height: 45 }} >
+        <Item extra={item.time} align="top" thumb="../header.png" style={{ height: 45 }} >
           <Text>{ item.name }</Text>
           <Brief style={{ fontSize: 10 }}>
             { `${item.name}: ${item.message}` }
