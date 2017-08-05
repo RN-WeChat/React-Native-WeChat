@@ -162,8 +162,8 @@ const Wechat = StackNavigator({
     path: 'chat/:id',
     screen: ChatView
   }
-},{
-  headerMode: 'none'
-})
+}, {
+    headerMode: 'none'
+  })
 
 AppRegistry.registerComponent('wechat', () => Wechat)

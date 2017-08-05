@@ -6,23 +6,24 @@ class SocketIo {
     this.socket = Io.connect(this.url, {
       path: '/wechat'
     })
-    this.socketStatus = 'off'
+    this.socketStatus = false
+    return this.socket
   }
 
   connect(func = () => { }) {
     this.socket.on('connect', func)
-    this.socketStatus = 'on'
+    this.socketStatus = true
   }
 
   reConnect(bool) {
     this.socket.reconnect(bool)
-    this.socketStatus = 'off'
+    this.socketStatus = false
   }
 
   disConnect(func = () => { }) {
     this.socket.disconnect()
     this.socket.on('disconnect', func)
-    this.socketStatus = 'off'
+    this.socketStatus = false
   }
 
   emitEvent(eventName = '', data = {}) {
