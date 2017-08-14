@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Image } from 'react-native'
 import { List, SwipeAction } from 'antd-mobile'
 import Header from './header'
 
@@ -32,6 +32,12 @@ class HomeView extends Component {
     this.setState({ MessageList })
   }
 
+  handleChat = (id) => () => {
+    const { MessageList } = this.state
+    const { navigate } = this.props.navigation
+    navigate('Chat', { title: MessageList[id].name })
+  }
+
   renderItem(item, key) {
     const rightMenu = [
       { text: 'Cancel', onPress: () => {}, style: { backgroundColor: '#ddd', color: 'white' } },
@@ -40,7 +46,8 @@ class HomeView extends Component {
     ]
     return (
       <SwipeAction autoClose right={rightMenu} key={key}>
-        <Item extra={item.time} align="top" thumb="../header.png" style={{ height: 45 }} >
+        <Item extra={item.time} align="top" style={{ height: 45 }} onClick={this.handleChat(key)}
+          thumb={<Image style={{ width: 40, height: 40, borderRadius: 5 }} source={{ uri: 'header' }} />} >
           <Text>{ item.name }</Text>
           <Brief style={{ fontSize: 10 }}>
             { `${item.name}: ${item.message}` }

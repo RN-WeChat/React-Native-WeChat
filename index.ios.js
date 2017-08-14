@@ -11,12 +11,15 @@ import {
   View,
   TextInput,
   Image,
+  Alert,
   Dimensions
 } from 'react-native'
 import { Button } from 'antd-mobile'
-import { StackNavigator } from 'react-navigation'
+import { StackNavigator, NavigationActions } from 'react-navigation'
 
 import MainView from './ios-component/main'
+import ChatView from './ios-component/chat-view'
+import config from './config'
 
 class LoginView extends Component {
   constructor() {
@@ -39,28 +42,76 @@ class LoginView extends Component {
   }
 
   handleLogin() {
-    const { navigate } = this.props.navigation
-    navigate('Main')
+    const { userName, passWord } = this.state
+    const { address, port, loginApi } = config
+    const url = `${address}:${port}${loginApi}`
+    const data = { name: userName, pass: passWord }
+    const { dispatch } = this.props.navigation
+    const navigateAction = NavigationActions.navigate({
+      routeName: 'Main'
+    })
+    dispatch(navigateAction)
+    // if (!userName || !passWord) {
+    //   let msg = ''
+    //   if (!userName) {
+    //     msg = '用户名不能为空'
+    //   } else {
+    //     msg = '密码不能为空'
+    //   }
+    //   Alert.alert('WeChat', msg)
+    // } else {
+    //   const reg = /^1[358][0-9]{9}$/
+    //   if (!reg.test(userName)) {
+    //     Alert.alert('WeChat', '非法的手机号码')
+    //   } else {
+    //     fetch(url, {
+    //       method: 'POST',
+    //       headers: {
+    //         'Accept': 'application/json',
+    //         'Content-Type': 'application/json'
+    //       },
+    //       body: JSON.stringify(data)
+    //     })
+    //     .then( (res) => {
+    //       return res.json()
+    //     }).then( (resJson) => {
+    //       if (resJson.code !== 200) {
+    //         throw new Error('login faild')
+    //       } else {
+    //         const { dispatch } = this.props.navigation
+    //         const navigateAction = NavigationActions.navigate({
+    //           routeName: 'Main'
+    //         })
+    //         dispatch(navigateAction)
+    //       }
+    //     }).catch( (error) => {
+    //       Alert.alert('WeChat', '用户名或密码错误')
+    //     })
+    //   }
+    // }
   }
 
   render() {
     const _screen = Dimensions.get('screen')
     return (
-      <Image source={require('./ln.png')}
+      <Image source={{ uri: 'login' }}
         style={{ width: _screen.width, height: _screen.height }}>
         <View style={styles.container}>
-          <View>
-            <TextInput placeholder={"Enter user name"} style={styles.textInput}
-              placeholderTextColor='#fff' maxLength={20}
+          <Image style={styles.header} source={{ uri: 'header' }} />
+          <View style={{ marginTop: 50 }}>
+            <TextInput placeholder={"请输入11位手机号码"}
+              style={styles.textInput} keyboardType={"numeric"}
+              placeholderTextColor='#fff' maxLength={11} autoCapitalize={"none"}
               onChangeText={this.handleUserNameChange} />
           </View>
           <View style={{ marginTop: 20 }}>
-            <TextInput secureTextEntry={true} keyboardType={"numeric"} style={styles.textInput}
-              placeholder={"Enter password"} placeholderTextColor='#fff' maxLength={16}
+            <TextInput secureTextEntry={true} placeholder={"请输入密码"}
+              style={styles.textInput} clearTextOnFocus autoCapitalize={"none"}
+              placeholderTextColor='#fff' maxLength={16}
               onChangeText={this.handlePassWordChange} />
           </View>
           <Button type={'primary'} style={styles.loginBtn} onClick={this.handleLogin}>
-            Login
+            登陆
           </Button>
         </View>
       </Image>
@@ -72,16 +123,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   textInput: {
     borderColor: '#fff',
     textAlign: 'center',
     borderRadius: 20,
+    borderWidth: 1,
     display: 'flex',
-    borderWidth: 2,
+    color: '#fff',
     width: 300,
     height: 40
+  },
+  header: {
+    borderRadius: 50,
+    marginTop: 100,
+    width: 100,
+    height: 100
   },
   loginBtn: {
     borderRadius: 20,
@@ -92,10 +150,20 @@ const styles = StyleSheet.create({
 })
 
 const Wechat = StackNavigator({
-  Home: { screen: LoginView },
-  Main: { screen: MainView }, 
-},{
-  headerMode: 'none'
-})
+  Home: {
+    path: 'home',
+    screen: LoginView
+  },
+  Main: {
+    path: 'main',
+    screen: MainView
+  },
+  Chat: {
+    path: 'chat/:id',
+    screen: ChatView
+  }
+}, {
+    headerMode: 'none'
+  })
 
 AppRegistry.registerComponent('wechat', () => Wechat)

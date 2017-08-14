@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, TabBarIOS } from 'react-native'
-import HomeView from './home-view'
+import MessageView from './message-view'
 import ContactView from './contact-view'
 import MeView from './me-view'
 
@@ -28,13 +28,14 @@ class MainView extends Component {
 
   renderView() {
     const { tag } = this.state
+    const { navigation } = this.props
     switch (tag) {
       case 'Message':
-        return (<HomeView />)
+        return (<MessageView navigation={navigation} />)
       case 'Contact':
-        return (<ContactView />)
+        return (<ContactView navigation={navigation} />)
       default:
-        return (<MeView logOut={this.handleLogout} />)
+        return (<MeView navigation={navigation} logOut={this.handleLogout} />)
     }
   }
 
@@ -43,21 +44,18 @@ class MainView extends Component {
     const { tag } = this.state
     return (
       <View style={{ flex: 1 }}>
-        <TabBarIOS barTintColor={'#333'} tintColor={'#fff'}>
-          <TabBarIOSItem title={'Message'}
-            selected={tag === 'Message'}
+        <TabBarIOS barTintColor={'#ddd'} tintColor={'#0c0'}>
+          <TabBarIOSItem title={'消息'} selected={tag === 'Message'}
             onPress={this.handleTabBarSelect.bind(this, 'Message')}>
             { TabBarView }
           </TabBarIOSItem>
 
-          <TabBarIOSItem title={'Contact'}
-            selected={tag === 'Contact'}
+          <TabBarIOSItem title={'联系人'} selected={tag === 'Contact'}
             onPress={this.handleTabBarSelect.bind(this, 'Contact')}>
             { TabBarView }
           </TabBarIOSItem>
 
-          <TabBarIOSItem title={'Me'}
-            selected={tag === 'Me'}
+          <TabBarIOSItem title={'我'} selected={tag === 'Me'}
             onPress={this.handleTabBarSelect.bind(this, 'Me')}>
             { TabBarView }
           </TabBarIOSItem>
